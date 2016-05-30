@@ -1,0 +1,210 @@
+<html>
+<head>
+	<title>The BETTING GAME</title>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-rc1/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/foundation/6.2.1/foundation.min.css" />
+	<style>
+
+		* {font-family: "Didot", "Bodoni 72", serif !important;}
+
+		body {
+			border: 2px dotted #ff5;
+			padding: 3% 20%;
+			background-color: #d11;
+		}
+
+		span.ready {
+			border-bottom: 3px solid white !important
+		}
+
+		span.ready:hover {cursor: pointer}
+
+		h1 {
+		display: block;
+		width: 610px;
+		text-align: center;
+		letter-spacing: 5px;
+		margin: 10 auto;}
+
+		form {
+			border: 1px dotted #ff5;
+			padding: 20px;
+		}
+
+		form#guess {border: 1px dotted #4f4 !important}
+
+		form label {
+			font-weight: bold;
+			margin-bottom: 15px;}
+
+		#bank {
+			text-align: center;
+			font-size: 23.5px;
+			color: #ff5;
+			line-break: wrap;
+		}
+
+		#total {
+		  background-color: black;
+		  width: 100%;
+			color: #ff5;
+			text-align: center;
+			padding: 20px 20px 20px 0;
+			font-size: 50px;
+		}
+
+		#win-lose-message {
+			text-align: center;
+			font-size: 25px;
+			border: 1px dotted black;
+			margin: 10px 0;
+			height: 64px;
+			padding: 8px;
+		  color: white }
+
+		h4 {color: white;}
+
+
+		#start-over-button {display: block; margin: 20px auto; opacity: 0}
+
+		#guess {display: none}
+
+		#bet_button {display: none}
+		#bet input {display: none}
+
+	</style>
+</head>
+<body>
+	<h1>THE BETTING GAME</h1>
+		<h3 id="total">$</h3>
+		<div id="bank">
+		</div>
+		</div>
+	</div>
+	<div id="win-lose-message">
+	</div>
+	<form id="bet">
+		<h4 id="bet-message">Welcome! You start with $100. You can place bets between $5 and $10. <span class='ready'>Click here to start!</span></h4>
+		<input type="text" id="bet-value" placeholder="$"/>
+		<input type="submit" name="bet" value="BET" id="bet_button" class="large button play"/>
+		</br>
+	</form>
+	<form id="guess">
+		<h4 id="guess-message">Guess a number beteen 1 and 10:</h4>
+		<input type="text" id="guess-value" placeholder="$"/>
+		<input type="submit" name="play" value="PLAY" id="guess_button" class="large button play"/>
+		</br>
+	</form>
+
+	</hr>
+	<a href="#" class="large success button" id="start-over-button" onclick="location.reload()">START OVER?</a>
+
+
+	<script>
+
+		$(document).ready(function(){
+
+				money = 100;
+				bet   = 0;
+				guess = 1;
+				num   = 0;
+
+				var $total           = $("#total");
+				var $bank            = $("#bank");
+				var $betForm         = $("#bet");
+				var $guessForm       = $("#guess");
+				var $betMessage      = $("#bet-message");
+				var $guessMessage    = $("#guess-message");
+				var $winLoseMessage  = $("#win-lose-message");
+				var $startOverButton = $("#start-over-button");
+
+				// Load up the #bank and #total
+				// with dollar signs and the starting amount;
+				$bank.html(Array(money).join("$ "));
+				$total.html("$" + money);
+
+				$("span.ready").on("click", function(){
+					$("#bet > input").fadeIn();
+					$("#bet_button").slideDown();
+					play();
+					$betMessage.fadeOut(300, function(){
+						$betMessage.html("What do you want to bet?").fadeIn(300);
+					});
+				});
+
+				function play(){
+					$betForm.submit(function(event){
+						bet = $("#bet-value").val();
+						bet = Number(bet);
+						if (bet < 5 || bet > 10) {
+							$betMessage.html("Sorry, you have to bet between $5 and $10");
+						} else {
+							num = generateNum();
+							$betForm.hide();
+							$betMessage.html("What do you want to bet?");
+							$guessForm.show();
+							$guessMessage.html("Pick a number between 1 and 10.").fadeIn();
+						}
+						$("#bet-value").val("");
+						$("#guess-value").val("");
+						event.preventDefault();
+					});
+
+					$guessForm.submit(function(event){
+						guess = $("#guess-value").val();
+						guess = Number(guess);
+						if (guess == num) {
+							$winLoseMessage.html("CONGRATS!!! You won $" + bet + "! You know have $" + addMoney(bet) );
+						} else if (guess == num-1 || guess == num+1 ) {
+							$winLoseMessage.html("Close! The number was " + num + ". You still have $" + money );
+						} else if (money < 0 ) {
+							$winLoseMessage.html("Sorry, you've run out of money");
+						} else {
+							$winLoseMessage.html("Sorry! The number was " + num + ". You lost $" + bet + "! You now have $" + removeMoney(bet) );
+						}
+
+						$guessForm.hide();
+						$("#guess_value").val("");
+
+						$("#bet_value").val("");
+						$betForm.show();
+
+						$("#total").html("$"+money);
+						if (money < 0 ){
+							$(form).hide();
+							$winLoseMessage.html("Sorry, you've run out of money.");
+						}
+						event.preventDefault();
+					});
+				}
+
+				function generateNum(){
+					return Math.floor((Math.random() * 10) + 1);
+				}
+
+				function addMoney(bet){
+					money += Number(bet);
+					checkMoney(money);
+					return money;
+				}
+
+				function checkMoney(){
+					if (money <= 0) {
+						money = 0;
+						$bank.html("");
+						$startOverButton.fadeTo("fast", 1);
+					} else {
+						$bank.html(Array(money+1).join("$ "));
+					}
+				}
+
+				function removeMoney(bet){
+					money -= Number(bet);
+					checkMoney(money);
+					return money;
+				}
+
+		});
+	</script>
+</body>
+</html>
