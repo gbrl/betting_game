@@ -5,6 +5,7 @@
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/foundation/6.2.1/foundation.min.css" />
 	<style>
 
+	  /* Set font for all elements */
 		* {font-family: "Didot", "Bodoni 72", serif !important;}
 
 		body {
@@ -14,28 +15,34 @@
 		}
 
 		span.ready {
-			border-bottom: 3px solid white !important
+			border-bottom: 3px solid white !important;
 		}
 
-		span.ready:hover {cursor: pointer}
+		span.ready:hover {
+			cursor: pointer;
+		}
 
 		h1 {
 		display: block;
 		width: 610px;
 		text-align: center;
 		letter-spacing: 5px;
-		margin: 10 auto;}
+		margin: 10 auto;
+	}
 
 		form {
 			border: 1px dotted #ff5;
 			padding: 20px;
 		}
 
-		form#guess {border: 1px dotted #4f4 !important}
+		form#guess {
+			border: 1px dotted #4f4 !important
+		}
 
 		form label {
 			font-weight: bold;
-			margin-bottom: 15px;}
+			margin-bottom: 15px;
+		}
 
 		#bank {
 			text-align: center;
@@ -60,10 +67,12 @@
 			margin: 10px 0;
 			height: 64px;
 			padding: 8px;
-		  color: white }
+		  color: white;
+		}
 
-		h4 {color: white;}
-
+		h4 {
+			color: white;
+		}
 
 		#start-over-button {display: block; margin: 20px auto; opacity: 0}
 
@@ -95,10 +104,8 @@
 		<input type="submit" name="play" value="PLAY" id="guess_button" class="large button play"/>
 		</br>
 	</form>
-
 	</hr>
 	<a href="#" class="large success button" id="start-over-button" onclick="location.reload()">START OVER?</a>
-
 
 	<script>
 
@@ -133,6 +140,7 @@
 				});
 
 				function play(){
+
 					$betForm.submit(function(event){
 						bet = $("#bet-value").val();
 						bet = Number(bet);
@@ -148,13 +156,15 @@
 						$("#bet-value").val("");
 						$("#guess-value").val("");
 						event.preventDefault();
+
 					});
 
 					$guessForm.submit(function(event){
 						guess = $("#guess-value").val();
 						guess = Number(guess);
+
 						if (guess == num) {
-							$winLoseMessage.html("CONGRATS!!! You won $" + bet + "! You know have $" + addMoney(bet) );
+							$winLoseMessage.html("CONGRATS!!! You won $" + bet + "! You now have $" + addMoney(bet) );
 						} else if (guess == num-1 || guess == num+1 ) {
 							$winLoseMessage.html("Close! The number was " + num + ". You still have $" + money );
 						} else if (money < 0 ) {
@@ -203,8 +213,8 @@
 					checkMoney();
 					return money;
 				}
-
 		});
 	</script>
+
 </body>
 </html>
