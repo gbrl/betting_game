@@ -154,7 +154,7 @@
 							$betMessage.html("What do you want to bet?");
 							$guessForm.show();
 						}
-						$guessMessage.html("Pick a value between $1.00 and $10.00").fadeIn();
+						$guessMessage.html("Pick a value between 1 and 10").fadeIn();
 						$("#bet-value").val("");
 						$("#guess-value").val("");
 						event.preventDefault();
@@ -166,9 +166,9 @@
 						guess = Number(guess);
 
 						if (guess == num) {
-							$winLoseMessage.html("WINNER!!! You won $" + bet + "! You now have $" + addMoney(bet) + ".00.");
+							$winLoseMessage.html("WINNER!!! You won $" + bet + ".00! You now have $" + addMoney(bet) + ".00.");
 						} else if (guess == num-1 || guess == num+1) {
-							$winLoseMessage.html("Close! The number was " + num + ".00. You still have $" + money  + "0.00.");
+							$winLoseMessage.html("Close! The number was " + num + ". You still have $" + money  + ".00.");
 						} else if (money < 0) {
 							$winLoseMessage.html(":( You've run out of money.");
 						} else {
