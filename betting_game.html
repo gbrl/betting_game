@@ -11,7 +11,7 @@
 		body {
 			border: 2px dotted #ff5;
 			padding: 3% 20%;
-			background-color: #d11;
+			background-color: #444448;
 		}
 
 		span.ready {
@@ -53,6 +53,7 @@
 
 		#total {
 		  background-color: black;
+			border: 1px dotted #ff4 !important;
 		  width: 100%;
 			color: #ff5;
 			text-align: center;
@@ -68,7 +69,9 @@
 			height: 64px;
 			padding: 8px;
 		  color: white;
+			background-color: #d11;
 		}
+
 
 		h4 {
 			color: white;
@@ -91,7 +94,7 @@
 	<div id="win-lose-message">
 	</div>
 	<form id="bet">
-		<h4 id="bet-message">Welcome! You start with $100. You can place bets between $5 and $10. <span class='ready'>Click here to start!</span></h4>
+		<h4 id="bet-message">Welcome! Your starting total is $100.00. You can place bets between $5.00 and $10.00. <span class='ready'>Click here to start!</span></h4>
 		<input type="text" id="bet-value" placeholder="$"/>
 		<input type="submit" name="bet" value="BET" id="bet_button" class="large button play"/>
 		</br>
@@ -126,7 +129,7 @@
 				// Load up the #bank and #total
 				// with dollar signs and the starting amount;
 				$bank.html(Array(money).join("$ "));
-				$total.html("$" + money);
+				$total.html("$" + money + ".00");
 
 				$("span.ready").on("click", function(){
 					$("#bet > input").fadeIn();
@@ -142,14 +145,16 @@
 					$betForm.submit(function(event){
 						bet = $("#bet-value").val();
 						bet = Number(bet);
-						while (bet < 5 || bet > 10) {
-							$betMessage.html("Sorry, you have to bet between $5 and $10");
+
+						if (bet < 5 || bet > 10) {
+							$betMessage.html("Sorry, you have to bet between $5.00 and $10.00");
+						} else {
+							num = generateNum();
+							$betForm.hide();
+							$betMessage.html("What do you want to bet?");
+							$guessForm.show();
 						}
-				  	num = generateNum();
-						$betForm.hide();
-						$betMessage.html("What do you want to bet?");
-						$guessForm.show();
-						$guessMessage.html("Pick a number between 1 and 10.").fadeIn();
+						$guessMessage.html("Pick a value between $1.00 and $10.00").fadeIn();
 						$("#bet-value").val("");
 						$("#guess-value").val("");
 						event.preventDefault();
@@ -161,13 +166,13 @@
 						guess = Number(guess);
 
 						if (guess == num) {
-							$winLoseMessage.html("CONGRATS!!! You won $" + bet + "! You now have $" + addMoney(bet) );
+							$winLoseMessage.html("WINNER!!! You won $" + bet + "! You now have $" + addMoney(bet) + ".00.");
 						} else if (guess == num-1 || guess == num+1) {
-							$winLoseMessage.html("Close! The number was " + num + ". You still have $" + money );
+							$winLoseMessage.html("Close! The number was " + num + ".00. You still have $" + money  + "0.00.");
 						} else if (money < 0) {
-							$winLoseMessage.html("Sorry, you've run out of money");
+							$winLoseMessage.html(":( You've run out of money.");
 						} else {
-							$winLoseMessage.html("Sorry! The number was " + num + ". You lost $" + bet + "! You now have $" + removeMoney(bet) );
+							$winLoseMessage.html("WRONG... The number was " + num + ". You lost $" + bet + ".00. You now have $" + removeMoney(bet) + ".00.");
 						}
 
 						$guessForm.hide();
@@ -176,10 +181,11 @@
 						$("#bet_value").val("");
 						$betForm.show();
 
-						$("#total").html("$"+money);
+						$("#total").html("$" + money + ".00");
+
 						if (money < 0){
 							$(form).hide();
-							$winLoseMessage.html("Sorry, you've run out of money.");
+							$winLoseMessage.html(":( You've run out of money.");
 						}
 						event.preventDefault();
 					});
