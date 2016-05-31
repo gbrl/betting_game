@@ -1,0 +1,76 @@
+/* Set font for all elements */
+* {font-family: "Didot", "Bodoni 72", serif !important;}
+
+body {
+  border: 2px dotted #ff5;
+  padding: 3% 20%;
+  background-color: #444448;
+}
+
+span.ready {
+  border-bottom: 3px solid white !important;
+}
+
+span.ready:hover {
+  cursor: pointer;
+}
+
+h1 {
+display: block;
+width: 610px;
+text-align: center;
+letter-spacing: 5px;
+margin: 10 auto;
+}
+
+form {
+  border: 1px dotted #ff5;
+  padding: 20px;
+}
+
+form#guess {
+  border: 1px dotted #4f4 !important
+}
+
+form label {
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+#bank {
+  text-align: center;
+  font-size: 23.5px;
+  color: #ff5;
+  line-break: wrap;
+}
+
+#total {
+  background-color: black;
+  border: 1px dotted #ff4 !important;
+  width: 100%;
+  color: #ff5;
+  text-align: center;
+  padding: 20px 20px 20px 0;
+  font-size: 50px;
+}
+
+#win-lose-message {
+  text-align: center;
+  font-size: 25px;
+  border: 1px dotted black;
+  margin: 10px 0;
+  height: 64px;
+  padding: 8px;
+  color: white;
+  background-color: #d11;
+}
+
+
+h4 {
+  color: white;
+}
+
+#start-over-button {display: block; margin: 20px auto; opacity: 0}
+
+/* Hide some things form the get-go */
+#bet input, #bet_button, #guess {display: none}
