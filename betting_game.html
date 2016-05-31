@@ -86,10 +86,8 @@
 </head>
 <body>
 	<h1>THE BETTING GAME</h1>
-		<h3 id="total">$</h3>
-		<div id="bank">
-		</div>
-		</div>
+	<h3 id="total">$</h3>
+	<div id="bank">
 	</div>
 	<div id="win-lose-message">
 	</div>
@@ -147,11 +145,11 @@
 						bet = Number(bet);
 
 						if (bet < 5 || bet > 10) {
-							$betMessage.html("Sorry, you have to bet between $5.00 and $10.00");
+							$betMessage.html("Sorry, you have to bet between $5 and $10, no cents.");
 						} else {
 							num = generateNum();
 							$betForm.hide();
-							$betMessage.html("What do you want to bet?");
+							$betMessage.html("What do you want to bet?").fadeIn();
 							$guessForm.show();
 						}
 						$guessMessage.html("Pick a value between 1 and 10").fadeIn();
@@ -166,6 +164,7 @@
 						guess = Number(guess);
 
 						if (guess == num) {
+							$winLoseMessage.addClass("success");
 							$winLoseMessage.html("WINNER!!! You won $" + bet + ".00! You now have $" + addMoney(bet) + ".00.");
 						} else if (guess == num-1 || guess == num+1) {
 							$winLoseMessage.html("Close! The number was " + num + ". You still have $" + money  + ".00.");
